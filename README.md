@@ -11,10 +11,10 @@ Medical Medium|Why Celery Juice Is Healing Millions
 ...
 ```
 
-### Configuration
+### Configuration in config/config.go
 
-Modify `seenFileName` in `helpers/files.go` to a path you like and modify
-the `youTubeChannels` string array in `main.go` to your YouTube channels.
+Modify `seenFileName` to a path you like, set your YouTube key in `youTubeKey` (like `AIzaSy...`)
+and fill in the `youTubeChannelIds` string array.
 
 To extract the Channel ID from pages like this https://www.youtube.com/user/vsauce, 
 this website can be used: https://commentpicker.com/youtube-channel-id.php
@@ -25,6 +25,7 @@ Running this produces an output like this and only lists new videos:
 
 ```bash
 Medical Medium   https://www.youtube.com/channel/UCUORv_qpgmg8N5plVqlYjXg
+  - The Medical Medium Answering Your Food & Health Questions
   - Why Celery Juice Is Healing Millions
 ```
 
