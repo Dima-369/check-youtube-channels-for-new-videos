@@ -5,6 +5,9 @@ const (
 	YouTubeKey   = "AIza...Da8c"
 )
 
-var YouTubeChannelIds = []string{
-	"UCUORv_qpgmg8N5plVqlYjXg", // Medical Medium
+// GetYouTubeChannelsToCheck returns the channel IDs.
+func GetYouTubeChannelsToCheck() []string {
+	return []string{
+		"UCUORv_qpgmg8N5plVqlYjXg", // Medical Medium
+	}
 }

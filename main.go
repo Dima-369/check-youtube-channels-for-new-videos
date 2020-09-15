@@ -1,46 +1,56 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	. "check-youtube/config"
-	. "check-youtube/helpers"
+	"main/api"
+	"main/config"
+	"main/files"
 )
 
-func HasNewVideos(result FetchResult) bool {
+func hasNewVideos(seen []string, result api.FetchResult) bool {
 	for _, title := range result.VideoTitles {
-		if !HasSeenVideo(result.ChannelName, title) {
+		if !files.HasSeenVideo(seen, result.ChannelName, title) {
 			return true
 		}
 	}
+
 	return false
 }
 
 func main() {
-	PopulateSeen()
+	ctx := context.Background()
+	youTubeChannelIDs := config.GetYouTubeChannelsToCheck()
+	seen := files.FetchSeenVideos()
 
-	var channels []chan FetchResult
-	for _, youTubeChannel := range YouTubeChannelIds {
-		c := make(chan FetchResult)
+	channels := make([]chan api.FetchResult, 0, 64)
+
+	for _, youTubeChannel := range youTubeChannelIDs {
+		c := make(chan api.FetchResult)
+
 		channels = append(channels, c)
-		go GetLast5VideoTitlesForChannel(youTubeChannel, c)
+
+		go api.GetLast5VideoTitlesForChannel(ctx, youTubeChannel, c)
 	}
 
 	for i, c := range channels {
 		result := <-c
 
-		if HasNewVideos(result) {
-			channelId := YouTubeChannelIds[i]
+		if hasNewVideos(seen, result) {
+			channelID := youTubeChannelIDs[i]
 
 			fmt.Printf("%v   https://www.youtube.com/channel/%v\n",
-				result.ChannelName, channelId)
+				result.ChannelName, channelID)
 
 			for _, title := range result.VideoTitles {
 				p := fmt.Sprintf("  - %v", title)
-				if !HasSeenVideo(result.ChannelName, title) {
-					MarkAsSeen(result.ChannelName, title)
+
+				if !files.HasSeenVideo(seen, result.ChannelName, title) {
+					files.MarkAsSeen(result.ChannelName, title)
 					fmt.Println(p)
 				}
 			}
+
 			println("")
 		}
 	}

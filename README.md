@@ -1,23 +1,24 @@
 Uses the YouTube Data Web API to check the recent activities of channels to display a list 
 of new videos.
 
+### Configuration in config/config.go
+
+Modify `seenFileName` to a path you like, set your YouTube key in `youTubeKey` (like `AIzaSy...`)
+and change the returned string array of the `GetYouTubeChannelsToCheck()` function.
+
+To extract the Channel ID from channels like this https://www.youtube.com/user/vsauce where the 
+URL does not contain the ID,
+this website can be used: https://commentpicker.com/youtube-channel-id.php
+
 ---
 
-Seen videos are simply stored in the file named `seen-youtube.txt` with this format:
+The file specified by `seenFileName` contains the seen videos in this format:
 
 ```bash
 Medical Medium|The Medical Medium Answering Your Food & Health Questions
 Medical Medium|Why Celery Juice Is Healing Millions
 ...
 ```
-
-### Configuration in config/config.go
-
-Modify `seenFileName` to a path you like, set your YouTube key in `youTubeKey` (like `AIzaSy...`)
-and fill in the `youTubeChannelIds` string array.
-
-To extract the Channel ID from pages like this https://www.youtube.com/user/vsauce, 
-this website can be used: https://commentpicker.com/youtube-channel-id.php
 
 ### Output
 
@@ -29,6 +30,7 @@ Medical Medium   https://www.youtube.com/channel/UCUORv_qpgmg8N5plVqlYjXg
   - Why Celery Juice Is Healing Millions
 ```
 
-The https://www.googleapis.com/youtube/v3/activities API call returns the last 5 videos and more are really not needed.
+It uses the https://www.googleapis.com/youtube/v3/activities API call which returns just the last 5 videos, but 
+more are really not needed.
 
 As a note, running this fresh always displays all videos as new because `seen-youtube.txt` is not filled yet.
