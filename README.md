@@ -8,7 +8,8 @@ and change the returned string array of the `GetYouTubeChannelsToCheck()` functi
 
 To extract the Channel ID from channels like this https://www.youtube.com/user/vsauce where the 
 URL does not contain the ID,
-this website can be used: https://commentpicker.com/youtube-channel-id.php
+this website can be used: https://commentpicker.com/youtube-channel-id.php or this can be followed:
+https://stackoverflow.com/a/51016875/6908755
 
 ---
 
